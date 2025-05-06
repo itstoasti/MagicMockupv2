@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { useToast } from '@/hooks/use-toast';
 import Header from '@/components/Header';
@@ -6,6 +5,7 @@ import ToolsPanel from '@/components/ToolsPanel';
 import DeviceFrame from '@/components/DeviceFrame';
 import Footer from '@/components/Footer';
 import MarketingPreview from '@/components/MarketingPreview';
+import { Loader2 } from 'lucide-react';
 
 const Index = () => {
   const { toast } = useToast();
@@ -16,6 +16,8 @@ const Index = () => {
   const [shadow, setShadow] = useState(true);
   const [background, setBackground] = useState('white');
   const [marketingPreview, setMarketingPreview] = useState<string | null>(null);
+  const [isLoading, setIsLoading] = useState(false);
+  const [generatedAssetUrl, setGeneratedAssetUrl] = useState<string | null>(null);
 
   const handleImageUpload = (image: string) => {
     setUploadedImage(image);
@@ -41,7 +43,7 @@ const Index = () => {
     setBackground(color);
   };
 
-  const handleExport = (type: string) => {
+  const handleExport = async (type: string) => {
     if (!uploadedImage) {
       toast({
         title: "No screenshot",
@@ -58,8 +60,62 @@ const Index = () => {
       });
       // In a real app, we would generate and download the PNG here
     } else {
-      // Open marketing preview
-      setMarketingPreview(type);
+      // Call backend to generate marketing asset
+      setIsLoading(true);
+      setGeneratedAssetUrl(null); // Reset previous asset
+      setMarketingPreview(type); // Open modal immediately (optional, could wait for response)
+
+      try {
+        // Replace localhost URL with Supabase Edge Function URL
+        const functionUrl = 'https://ymeoglaoccsstbwbqicq.supabase.co/functions/v1/generate-marketing-asset';
+
+        // Retrieve the Supabase anon key (replace with your actual key or use Supabase client)
+        // IMPORTANT: Storing the key directly here is not recommended for production.
+        // Use environment variables or the Supabase JS client library for better security.
+        const supabaseAnonKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InltZW9nbGFvY2Nzc3Rid2JxaWNxIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDY0MjgxNDQsImV4cCI6MjA2MjAwNDE0NH0.08zMmn-gLm4-2_7odg5-gC25sSmyrP8iZKZu6qBqLAo'; // <-- Key updated
+
+        const response = await fetch(functionUrl, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            // Add Supabase required headers
+            'Authorization': `Bearer ${supabaseAnonKey}`,
+            'apikey': supabaseAnonKey // The anon key is often needed as apikey header too
+          },
+          body: JSON.stringify({
+            mockupImage: uploadedImage, // Assuming uploadedImage holds the necessary data/URL
+            deviceType: deviceType,
+            outputType: type,
+          }),
+        });
+
+        if (!response.ok) {
+          throw new Error('Failed to generate marketing asset');
+        }
+
+        const data = await response.json();
+
+        if (data.success && data.imageUrl) {
+          setGeneratedAssetUrl(data.imageUrl);
+          toast({
+            title: "Asset Generated",
+            description: `Your ${type} marketing asset is ready for preview.`,
+          });
+        } else {
+          throw new Error('API response missing success or imageUrl');
+        }
+
+      } catch (error) {
+        console.error("Error generating marketing asset:", error);
+        toast({
+          title: "Generation Failed",
+          description: "Could not generate the marketing asset. Please try again.",
+          variant: "destructive",
+        });
+        setMarketingPreview(null); // Close modal on error
+      } finally {
+        setIsLoading(false);
+      }
     }
   };
 
@@ -134,49 +190,41 @@ const Index = () => {
       <Footer />
       
       {marketingPreview && (
-        <MarketingPreview type={marketingPreview} onClose={() => setMarketingPreview(null)}>
-          <div className="relative w-full h-full">
-            {marketingPreview === 'appstore' && (
-              <>
-                <div className="absolute inset-0 bg-gradient-to-br from-blue-100 to-blue-300"></div>
-                <div className="absolute left-1/2 top-1/4 -translate-x-1/2 -translate-y-1/4 scale-75">
-                  <DeviceFrame 
-                    image={uploadedImage} 
-                    deviceType={deviceType}
-                    deviceColor={deviceColor}
-                    orientation="portrait"
-                    shadow={true}
-                  />
-                </div>
-                <div className="absolute bottom-1/4 left-0 right-0 text-center">
-                  <h2 className="text-4xl font-bold text-white drop-shadow-lg mb-4">Your App Name</h2>
-                  <p className="text-2xl text-white drop-shadow-md">Available now on the App Store</p>
-                </div>
-              </>
-            )}
-            
-            {marketingPreview === 'instagram' && (
-              <>
-                <div className="absolute inset-0 bg-gradient-to-br from-green-100 to-green-300"></div>
-                <div className="absolute left-1/3 top-1/2 -translate-x-1/2 -translate-y-1/2 scale-75 rotate-[-5deg]">
-                  <DeviceFrame 
-                    image={uploadedImage} 
-                    deviceType={deviceType}
-                    deviceColor={deviceColor}
-                    orientation="portrait"
-                    shadow={true}
-                  />
-                </div>
-                <div className="absolute right-1/4 top-1/2 -translate-y-1/2 max-w-[40%] text-left">
-                  <h2 className="text-3xl font-bold text-white drop-shadow-lg mb-4">Track Your Keto Journey!</h2>
-                  <p className="text-xl text-white drop-shadow-md">Download now and start your transformation</p>
-                </div>
-              </>
-            )}
-            <div className="absolute bottom-6 right-6 text-xs text-white opacity-50">
-              Created with MockupMagic
+        <MarketingPreview
+          type={marketingPreview}
+          onClose={() => {
+            setMarketingPreview(null);
+            setGeneratedAssetUrl(null); // Clear generated URL when closing
+          }}
+        >
+          {/* Show loader while generating, then the generated image or fallback */}
+          {isLoading ? (
+            <div className="flex items-center justify-center w-full h-full min-h-[200px] bg-gray-100">
+              <Loader2 className="h-12 w-12 animate-spin text-mockup-blue" />
             </div>
-          </div>
+          ) : generatedAssetUrl ? (
+            // Display the generated image - adjust styling as needed
+            <div className="relative w-full h-full flex items-center justify-center">
+               <img
+                 src={generatedAssetUrl} // Use the generated URL
+                 alt={`${marketingPreview} Preview`}
+                 className="max-w-full max-h-full object-contain"
+                 // Add onError handler if needed: onError={(e) => e.target.src='/path/to/error-image.png'}
+               />
+            </div>
+          ) : (
+             // Fallback or initial state before generation completes (or if it fails but modal wasn't closed)
+             <div className="flex items-center justify-center w-full h-full min-h-[200px] bg-gray-100 text-mockup-gray-500">
+               Generating asset...
+             </div>
+           )
+          }
+           {/* Optionally keep watermark if needed */}
+           {!isLoading && generatedAssetUrl && (
+              <div className="absolute bottom-6 right-6 text-xs text-black opacity-50 bg-white/70 px-1 rounded">
+                 Generated with MockupMagic (Preview)
+              </div>
+           )}
         </MarketingPreview>
       )}
     </div>
