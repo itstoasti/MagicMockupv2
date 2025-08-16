@@ -4,14 +4,10 @@
   "private": true,
   "dependencies": {
     "@emotion/core": "^10.0.28",
-<<<<<<< HEAD
     "@mediapipe/selfie_segmentation": "^0.1.1675465747",
     "@risingstack/react-easy-state": "^6.3.0",
     "@tensorflow-models/body-segmentation": "^1.0.2",
     "@tensorflow/tfjs": "^4.22.0",
-=======
-    "@risingstack/react-easy-state": "^6.3.0",
->>>>>>> origin/master
     "@testing-library/jest-dom": "^4.2.4",
     "@testing-library/react": "^9.3.2",
     "@testing-library/user-event": "^7.1.2",
@@ -41,11 +37,7 @@
   },
   "scripts": {
     "start": "set NODE_OPTIONS=--openssl-legacy-provider && set DISABLE_ESLINT_PLUGIN=true && set TSC_COMPILE_ON_ERROR=true && set PORT=3000 && react-scripts start",
-<<<<<<< HEAD
-    "build": "set NODE_OPTIONS=--openssl-legacy-provider && set DISABLE_ESLINT_PLUGIN=true && set TSC_COMPILE_ON_ERROR=true && react-scripts build",
-=======
     "build": "NODE_OPTIONS=--openssl-legacy-provider DISABLE_ESLINT_PLUGIN=true TSC_COMPILE_ON_ERROR=true react-scripts build",
->>>>>>> origin/master
     "build:legacy": "set NODE_OPTIONS=--openssl-legacy-provider && react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
