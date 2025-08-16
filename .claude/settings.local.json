@@ -8,11 +8,15 @@
       "Bash(curl:*)",
       "Bash(npx tsc:*)",
       "Bash(npm run build:*)",
+<<<<<<< HEAD
       "Bash(grep:*)",
       "Bash(npm install:*)",
       "Bash(npm uninstall:*)",
       "Bash(set PORT=3001)",
       "Bash(npm view:*)"
+=======
+      "Bash(grep:*)"
+>>>>>>> origin/master
     ],
     "deny": []
   }

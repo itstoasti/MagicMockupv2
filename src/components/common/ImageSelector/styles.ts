@@ -6,7 +6,11 @@ export const styles = (currentRoute?: Routes): string => {
           width: 100%;
           background-color: #ffffff;
           padding: 50px 30px 50px 30px;
+<<<<<<< HEAD
           min-height: ${currentRoute === Routes.MockupApp ? '40vh' : 'auto'};
+=======
+          min-height: ${currentRoute === Routes.App ? '40vh' : 'auto'};
+>>>>>>> origin/master
           text-align: center;
           font-size: 1.2em;
           cursor: pointer;

@@ -154,7 +154,11 @@ export let app = store({
             app.frameType = height > width ? ScreenshotType.Device : ScreenshotType.Browser;
         });
 
+<<<<<<< HEAD
         routeStore.goToRoute(Routes.MockupApp);
+=======
+        routeStore.goToRoute(Routes.App);
+>>>>>>> origin/master
     },
     setVideoData(videoData: string) {
         app.videoData = videoData;
@@ -176,7 +180,11 @@ export let app = store({
             app.frameType = ScreenshotType.Browser;
         });
 
+<<<<<<< HEAD
         routeStore.goToRoute(Routes.MockupApp);
+=======
+        routeStore.goToRoute(Routes.App);
+>>>>>>> origin/master
     },
     setCanvasSize(size: number): void {
         app.canvasSizeMap.set(app.frameType, size)
