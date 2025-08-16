@@ -37,15 +37,10 @@ export const ImageSelector = view(() => {
                 const fileReader = new FileReader();
                 fileReader.addEventListener('load', e => {
                     app.setImageData(e.target.result as string);
-<<<<<<< HEAD
+
                     // Navigate to app selection page if we're on homepage
                     if (routeStore.currentRoute === Routes.Home) {
                         routeStore.goToRoute(Routes.AppSelection);
-=======
-                    // Navigate to app page if we're on homepage
-                    if (routeStore.currentRoute === Routes.Home) {
-                        routeStore.goToRoute(Routes.App);
->>>>>>> origin/master
                     }
                 });
                 fileReader.readAsDataURL(file);
@@ -89,15 +84,10 @@ export const ImageSelector = view(() => {
             .then(response => response.json())
             .then(data => {
                 app.setImageData(`data:image/png;base64, ${data.imageBase64}`);
-<<<<<<< HEAD
+
                 // Navigate to app selection page if we're on homepage
                 if (routeStore.currentRoute === Routes.Home) {
                     routeStore.goToRoute(Routes.AppSelection);
-=======
-                // Navigate to app page if we're on homepage
-                if (routeStore.currentRoute === Routes.Home) {
-                    routeStore.goToRoute(Routes.App);
->>>>>>> origin/master
                 }
             })
             .catch(() => {
@@ -120,15 +110,10 @@ export const ImageSelector = view(() => {
     const handleDemoImage = (mobile: boolean) => {
         loadImageFromImageUrl(`/images/demo-image${mobile ? '-mobile' : ''}.png`).then((img) => {
             app.setImageData(img as string);
-<<<<<<< HEAD
+
             // Navigate to app selection page if we're on homepage
             if (routeStore.currentRoute === Routes.Home) {
                 routeStore.goToRoute(Routes.AppSelection);
-=======
-            // Navigate to app page if we're on homepage
-            if (routeStore.currentRoute === Routes.Home) {
-                routeStore.goToRoute(Routes.App);
->>>>>>> origin/master
             }
         })
     };
