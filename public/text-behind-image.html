@@ -866,23 +866,56 @@
 
                 ctx.drawImage(bgImg, 0, 0, canvas.width, canvas.height);
 
+                // Get the displayed image dimensions for proper scaling
+                const displayedImg = document.getElementById('backgroundImage');
+                
+                // Calculate the scaling factor between the displayed image and actual image
+                // The displayed image uses max-width/max-height: 100% and object-fit: contain
+                // So we need to find the actual displayed size vs the canvas size
+                
+                let displayWidth, displayHeight;
+                
+                // Calculate how the image is actually displayed (considering object-fit: contain)
+                const imageAspectRatio = canvas.width / canvas.height;
+                const containerMaxWidth = 800; // Approximate container width
+                const containerMaxHeight = isMobile() ? window.innerHeight * 0.5 : window.innerHeight * 0.7;
+                
+                const containerAspectRatio = containerMaxWidth / containerMaxHeight;
+                
+                if (imageAspectRatio > containerAspectRatio) {
+                    // Image is wider, so it will be limited by width
+                    displayWidth = Math.min(containerMaxWidth, canvas.width);
+                    displayHeight = displayWidth / imageAspectRatio;
+                } else {
+                    // Image is taller, so it will be limited by height  
+                    displayHeight = Math.min(containerMaxHeight, canvas.height);
+                    displayWidth = displayHeight * imageAspectRatio;
+                }
+                
+                const scaleX = canvas.width / displayWidth;
+                const scaleY = canvas.height / displayHeight;
+                
                 textSets.forEach(textSet => {
                     ctx.save();
                     
-                    // Set up text properties - use same size as preview, not 3x larger
-                    ctx.font = `${textSet.fontWeight} ${textSet.fontSize}px ${textSet.fontFamily}`;
+                    // Scale font size to match the image scaling
+                    const scaledFontSize = textSet.fontSize * Math.min(scaleX, scaleY);
+                    
+                    // Set up text properties with proper scaling
+                    ctx.font = `${textSet.fontWeight} ${scaledFontSize}px ${textSet.fontFamily}`;
                     ctx.fillStyle = textSet.color;
                     ctx.globalAlpha = textSet.opacity;
                     ctx.textAlign = 'center';
                     ctx.textBaseline = 'middle';
 
+                    // Calculate position based on the container dimensions and scaling
                     const x = canvas.width * (textSet.left + 50) / 100;
                     const y = canvas.height * (50 - textSet.top) / 100;
 
                     // Move to position first
                     ctx.translate(x, y);
                     
-                    // Apply 3D transforms
+                    // Apply 3D transforms with proper scaling
                     const tiltXRad = (-textSet.tiltX * Math.PI) / 180;
                     const tiltYRad = (-textSet.tiltY * Math.PI) / 180;
 
@@ -899,27 +932,30 @@
                     // Apply rotation last
                     ctx.rotate((textSet.rotation * Math.PI) / 180);
 
+                    // Scale letter spacing as well
+                    const scaledLetterSpacing = textSet.letterSpacing * Math.min(scaleX, scaleY);
+
                     if (textSet.letterSpacing === 0) {
                         // Use standard text rendering if no letter spacing
                         ctx.fillText(textSet.text, 0, 0);
                     } else {
-                        // Manual letter spacing implementation
+                        // Manual letter spacing implementation with scaling
                         const chars = textSet.text.split('');
                         let currentX = 0;
                         // Calculate total width to center properly
                         const totalWidth = chars.reduce((width, char, i) => {
                             const charWidth = ctx.measureText(char).width;
-                            return width + charWidth + (i < chars.length - 1 ? textSet.letterSpacing : 0);
+                            return width + charWidth + (i < chars.length - 1 ? scaledLetterSpacing : 0);
                         }, 0);
                         
                         // Start position (centered)
                         currentX = -totalWidth / 2;
                         
-                        // Draw each character with spacing
+                        // Draw each character with scaled spacing
                         chars.forEach((char, i) => {
                             const charWidth = ctx.measureText(char).width;
                             ctx.fillText(char, currentX + charWidth / 2, 0);
-                            currentX += charWidth + textSet.letterSpacing;
+                            currentX += charWidth + scaledLetterSpacing;
                         });
                     }
                     ctx.restore();
