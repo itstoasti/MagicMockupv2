@@ -1,0 +1,14 @@
+# https://www.robotstxt.org/robotstxt.html
+User-agent: *
+Allow: /
+
+# Important pages and assets
+Allow: /images/
+Allow: /static/
+Allow: /privacy.html
+
+# Sitemap location
+Sitemap: https://magicmockup.xyz/sitemap.xml
+
+# Crawl-delay for respectful crawling
+Crawl-delay: 1
