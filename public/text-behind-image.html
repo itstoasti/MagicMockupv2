@@ -367,31 +367,68 @@
             }
 
             .control-group {
-                margin-bottom: 0.75rem;
+                margin-bottom: 1.5rem;
+                padding: 0.5rem 0;
             }
 
             .control-group label {
                 font-size: 0.8rem;
-                margin-bottom: 0.25rem;
+                margin-bottom: 0.5rem;
+                display: block;
+                padding: 0.25rem 0;
             }
 
             .control-group input[type="text"] {
                 padding: 0.625rem;
                 font-size: 0.875rem;
+                margin: 0.5rem 0;
             }
 
             .control-group input[type="range"] {
-                height: 32px;
+                height: 44px;
+                margin: 0.75rem 0;
+                padding: 0.5rem 0;
             }
 
             .control-group input[type="color"] {
-                height: 36px;
+                height: 44px;
+                margin: 0.5rem 0;
+            }
+
+            /* Create larger touch targets for sliders */
+            .control-group input[type="range"] {
+                position: relative;
+                background: transparent;
+            }
+
+            /* Add padding around sliders to prevent accidental scrolling */
+            .control-group input[type="range"]:before {
+                content: '';
+                position: absolute;
+                top: -10px;
+                bottom: -10px;
+                left: -10px;
+                right: -10px;
+                z-index: -1;
             }
 
             .add-text-btn {
                 width: 100%;
                 padding: 0.75rem;
-                margin-bottom: 0.75rem;
+                margin-bottom: 1.5rem;
+            }
+
+            /* Add scroll areas between controls */
+            .controls-area h3, .controls-area h4 {
+                padding: 1rem 0 0.5rem 0;
+                margin: 1rem 0 0.5rem 0;
+                border-top: 1px solid #f1f5f9;
+            }
+
+            .controls-area h3:first-child {
+                border-top: none;
+                margin-top: 0;
+                padding-top: 0;
             }
 
             /* Touch-friendly sizing for sliders */
@@ -750,6 +787,11 @@
             createTextElement(textSet);
             updateControls(textSet);
             document.getElementById('textControls').classList.remove('hidden');
+            
+            // Setup mobile scroll protection for new sliders
+            if (isMobile()) {
+                setupSliderScrollProtection();
+            }
         }
 
         function clearAllText() {
@@ -1060,8 +1102,26 @@
             const textInput = document.getElementById('textInput');
             
             if (controlsArea && isMobile()) {
-                // Only prevent focus for non-interactive elements
+                // Track scroll state to prevent slider interactions during scrolling
+                let isScrolling = false;
+                let scrollTimeout;
+                let startY = 0;
+                let scrollStartY = 0;
+
+                // Handle scroll detection
+                controlsArea.addEventListener('scroll', function() {
+                    isScrolling = true;
+                    clearTimeout(scrollTimeout);
+                    scrollTimeout = setTimeout(function() {
+                        isScrolling = false;
+                    }, 100);
+                }, { passive: true });
+
+                // Handle touch start for scroll detection
                 controlsArea.addEventListener('touchstart', function(e) {
+                    startY = e.touches[0].clientY;
+                    scrollStartY = controlsArea.scrollTop;
+                    
                     const target = e.target;
                     const tagName = target.tagName.toLowerCase();
                     
@@ -1070,8 +1130,7 @@
                         tagName === 'input' || 
                         tagName === 'label' ||
                         target.classList.contains('add-text-btn') ||
-                        target.closest('button') ||
-                        target.closest('.control-group')) {
+                        target.closest('button')) {
                         return; // Let the event proceed normally
                     }
                     
@@ -1084,6 +1143,18 @@
                     }
                 }, { passive: true });
 
+                // Handle touch move to detect if user is scrolling
+                controlsArea.addEventListener('touchmove', function(e) {
+                    const currentY = e.touches[0].clientY;
+                    const deltaY = Math.abs(currentY - startY);
+                    
+                    // If user moved vertically more than 10px, consider it scrolling
+                    if (deltaY > 10) {
+                        isScrolling = true;
+                    }
+                }, { passive: true });
+
+
                 // Ensure text input can still be focused when tapped directly
                 if (textInput) {
                     textInput.addEventListener('touchstart', function(e) {
@@ -1093,8 +1164,76 @@
             }
         }
 
+        // Setup slider scroll protection for mobile
+        function setupSliderScrollProtection() {
+            if (!isMobile()) return;
+            
+            const controlsArea = document.querySelector('.controls-area');
+            if (!controlsArea) return;
+            
+            let isScrolling = false;
+            let scrollTimeout;
+            let startY = 0;
+
+            // Handle scroll detection
+            controlsArea.addEventListener('scroll', function() {
+                isScrolling = true;
+                clearTimeout(scrollTimeout);
+                scrollTimeout = setTimeout(function() {
+                    isScrolling = false;
+                }, 150);
+            }, { passive: true });
+
+            // Handle touch start for scroll detection
+            controlsArea.addEventListener('touchstart', function(e) {
+                startY = e.touches[0].clientY;
+            }, { passive: true });
+
+            // Handle touch move to detect if user is scrolling
+            controlsArea.addEventListener('touchmove', function(e) {
+                const currentY = e.touches[0].clientY;
+                const deltaY = Math.abs(currentY - startY);
+                
+                // If user moved vertically more than 15px, consider it scrolling
+                if (deltaY > 15) {
+                    isScrolling = true;
+                }
+            }, { passive: true });
+
+            // Prevent slider interactions during scroll
+            const rangeInputs = controlsArea.querySelectorAll('input[type="range"]');
+            rangeInputs.forEach(input => {
+                // Remove existing listeners first
+                input.removeEventListener('touchstart', input._scrollProtectionHandler);
+                input.removeEventListener('touchmove', input._scrollProtectionMoveHandler);
+                
+                // Add new handlers
+                input._scrollProtectionHandler = function(e) {
+                    if (isScrolling) {
+                        e.preventDefault();
+                        e.stopPropagation();
+                        return false;
+                    }
+                };
+                
+                input._scrollProtectionMoveHandler = function(e) {
+                    if (isScrolling) {
+                        e.preventDefault();
+                        e.stopPropagation();
+                        return false;
+                    }
+                };
+                
+                input.addEventListener('touchstart', input._scrollProtectionHandler, { passive: false });
+                input.addEventListener('touchmove', input._scrollProtectionMoveHandler, { passive: false });
+            });
+        }
+
         // Initialize mobile focus management when DOM is ready
-        document.addEventListener('DOMContentLoaded', setupMobileFocusManagement);
+        document.addEventListener('DOMContentLoaded', function() {
+            setupMobileFocusManagement();
+            setupSliderScrollProtection();
+        });
 
         // Make functions available globally for onclick handlers
         window.addNewTextSet = addNewTextSet;
