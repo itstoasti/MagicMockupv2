@@ -1,18 +1,13 @@
 import {store} from "@risingstack/react-easy-state";
 
 export enum Routes {
-<<<<<<< HEAD
     AppSelection,
     MockupApp,
     TextBehindImageApp,
-=======
-    App,
->>>>>>> origin/master
     Home,
 }
 
 export const RouteConfig = {
-<<<<<<< HEAD
     [Routes.AppSelection]: {
         path: '/app',
         regex: /^\/?app$/,
@@ -25,12 +20,6 @@ export const RouteConfig = {
         path: '/app/text-behind-image',
         regex: /^\/?app\/text-behind-image$/,
     },
-=======
-    [Routes.App]: {
-        path: '/app',
-        regex: /^\/?app$/,
-    },
->>>>>>> origin/master
     [Routes.Home]: {
         path: '/',
         regex: /^\/$/,
@@ -57,7 +46,6 @@ export const routeStore = store({
     determineRoute: () => {
         const pathname = window.location.pathname;
         
-<<<<<<< HEAD
         // Check each route configuration (order matters - more specific routes first)
         if (RouteConfig[Routes.MockupApp].regex.test(pathname)) {
             routeStore.currentRoute = Routes.MockupApp;
@@ -65,11 +53,6 @@ export const routeStore = store({
             routeStore.currentRoute = Routes.TextBehindImageApp;
         } else if (RouteConfig[Routes.AppSelection].regex.test(pathname)) {
             routeStore.currentRoute = Routes.AppSelection;
-=======
-        // Check each route configuration
-        if (RouteConfig[Routes.App].regex.test(pathname)) {
-            routeStore.currentRoute = Routes.App;
->>>>>>> origin/master
         } else if (RouteConfig[Routes.Home].regex.test(pathname)) {
             routeStore.currentRoute = Routes.Home;
         } else {
