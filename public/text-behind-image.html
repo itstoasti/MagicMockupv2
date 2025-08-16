@@ -415,10 +415,14 @@
                 min-height: 44px;
             }
 
-            /* Prevent unwanted focus on mobile */
+            /* Prevent unwanted focus on mobile - but allow buttons */
             .controls-area {
                 -webkit-tap-highlight-color: transparent;
                 -webkit-touch-callout: none;
+            }
+
+            /* Prevent selection on non-interactive elements */
+            .controls-area h3, .controls-area h4, .controls-area label, .controls-area span {
                 -webkit-user-select: none;
                 -moz-user-select: none;
                 -ms-user-select: none;
@@ -431,6 +435,15 @@
                 -moz-user-select: text;
                 -ms-user-select: text;
                 user-select: text;
+            }
+
+            /* Ensure buttons are interactive */
+            .add-text-btn, button {
+                -webkit-user-select: none;
+                -moz-user-select: none;
+                -ms-user-select: none;
+                user-select: none;
+                touch-action: manipulation;
             }
         }
 
@@ -952,23 +965,35 @@
             const textInput = document.getElementById('textInput');
             
             if (controlsArea && isMobile()) {
-                // Prevent default focus behavior on the controls area
+                // Only prevent focus for non-interactive elements
                 controlsArea.addEventListener('touchstart', function(e) {
-                    // Only allow focus on actual input elements
-                    if (e.target.tagName !== 'INPUT' || e.target.type === 'range') {
-                        e.preventDefault();
+                    const target = e.target;
+                    const tagName = target.tagName.toLowerCase();
+                    
+                    // Allow buttons, inputs, and labels to work normally
+                    if (tagName === 'button' || 
+                        tagName === 'input' || 
+                        tagName === 'label' ||
+                        target.classList.contains('add-text-btn') ||
+                        target.closest('button') ||
+                        target.closest('.control-group')) {
+                        return; // Let the event proceed normally
+                    }
+                    
+                    // Only prevent default for non-interactive areas like h3, h4, divs, etc.
+                    if (tagName === 'div' || tagName === 'h3' || tagName === 'h4') {
                         // Blur any currently focused input to hide keyboard
-                        if (document.activeElement && document.activeElement.tagName === 'INPUT') {
+                        if (document.activeElement && document.activeElement.tagName === 'INPUT' && document.activeElement.type === 'text') {
                             document.activeElement.blur();
                         }
                     }
-                }, { passive: false });
+                }, { passive: true });
 
-                // Add specific handling for text input
+                // Ensure text input can still be focused when tapped directly
                 if (textInput) {
                     textInput.addEventListener('touchstart', function(e) {
                         e.stopPropagation(); // Prevent parent touchstart handler
-                    });
+                    }, { passive: true });
                 }
             }
         }
