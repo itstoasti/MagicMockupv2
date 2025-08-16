@@ -39,6 +39,7 @@
     "start": "set NODE_OPTIONS=--openssl-legacy-provider && set DISABLE_ESLINT_PLUGIN=true && set TSC_COMPILE_ON_ERROR=true && set PORT=3000 && react-scripts start",
     "build": "cross-env NODE_OPTIONS=--openssl-legacy-provider DISABLE_ESLINT_PLUGIN=true TSC_COMPILE_ON_ERROR=true react-scripts build",
     "build:legacy": "set NODE_OPTIONS=--openssl-legacy-provider && react-scripts build",
+    "vercel-build": "npm run build",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
   },
