@@ -50,22 +50,14 @@
             background: #e2e8f0;
         }
 
-        .upload-btn, .save-btn {
-            background: #4f46e5;
+        .save-btn {
+            background: #10b981;
             color: white;
             border: none;
             padding: 0.75rem 1.5rem;
             border-radius: 8px;
             cursor: pointer;
             margin-left: 1rem;
-        }
-
-        .save-btn {
-            background: #10b981;
-        }
-
-        .upload-btn:hover {
-            background: #4338ca;
         }
 
         .save-btn:hover {
@@ -273,12 +265,12 @@
             .header > div:last-child {
                 display: flex;
                 gap: 0.5rem;
+                justify-content: center;
             }
 
-            .upload-btn, .save-btn {
+            .save-btn {
                 padding: 0.625rem 1rem;
                 font-size: 0.875rem;
-                flex: 1;
             }
 
             .back-btn {
@@ -400,6 +392,24 @@
             .control-group input, .control-group button {
                 min-height: 44px;
             }
+
+            /* Prevent unwanted focus on mobile */
+            .controls-area {
+                -webkit-tap-highlight-color: transparent;
+                -webkit-touch-callout: none;
+                -webkit-user-select: none;
+                -moz-user-select: none;
+                -ms-user-select: none;
+                user-select: none;
+            }
+
+            /* Allow selection only for text inputs */
+            .control-group input[type="text"] {
+                -webkit-user-select: text;
+                -moz-user-select: text;
+                -ms-user-select: text;
+                user-select: text;
+            }
         }
 
         @media (max-width: 480px) {
@@ -446,7 +456,6 @@
         </div>
         <div>
             <input type="file" id="fileInput" accept="image/*" style="display: none;">
-            <button class="upload-btn" onclick="document.getElementById('fileInput').click()">📁 Upload Image</button>
             <button class="save-btn hidden" id="saveBtn" onclick="saveCompositeImage()">💾 Save Image</button>
         </div>
     </header>
@@ -914,6 +923,36 @@
                 }
             }
         });
+
+        // Prevent keyboard from appearing on mobile when clicking non-input areas
+        function setupMobileFocusManagement() {
+            const controlsArea = document.querySelector('.controls-area');
+            const textInput = document.getElementById('textInput');
+            
+            if (controlsArea && isMobile()) {
+                // Prevent default focus behavior on the controls area
+                controlsArea.addEventListener('touchstart', function(e) {
+                    // Only allow focus on actual input elements
+                    if (e.target.tagName !== 'INPUT' || e.target.type === 'range') {
+                        e.preventDefault();
+                        // Blur any currently focused input to hide keyboard
+                        if (document.activeElement && document.activeElement.tagName === 'INPUT') {
+                            document.activeElement.blur();
+                        }
+                    }
+                }, { passive: false });
+
+                // Add specific handling for text input
+                if (textInput) {
+                    textInput.addEventListener('touchstart', function(e) {
+                        e.stopPropagation(); // Prevent parent touchstart handler
+                    });
+                }
+            }
+        }
+
+        // Initialize mobile focus management when DOM is ready
+        document.addEventListener('DOMContentLoaded', setupMobileFocusManagement);
 
         // Make functions available globally for onclick handlers
         window.addNewTextSet = addNewTextSet;
