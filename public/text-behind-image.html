@@ -646,7 +646,7 @@
             }
 
             .dropzone {
-                height: 180px;
+                height: 220px;
                 margin: 0 0 1rem 0;
                 width: 100%;
                 max-width: 350px;
@@ -655,6 +655,11 @@
                 background: linear-gradient(135deg, #fafbff 0%, #f0f9ff 100%) !important;
                 box-shadow: 0 4px 16px rgba(79, 70, 229, 0.2) !important;
                 animation: mobilePulse 2s infinite;
+                padding: 1rem !important;
+                display: flex !important;
+                flex-direction: column !important;
+                align-items: center !important;
+                justify-content: center !important;
             }
 
             @keyframes mobilePulse {
@@ -668,22 +673,31 @@
                 }
             }
 
+            .dropzone div[aria-hidden="true"] {
+                font-size: 2.5rem !important;
+                margin-bottom: 0.5rem !important;
+            }
+
             .dropzone h2 {
-                font-size: 1.1rem !important;
-                margin-bottom: 0.75rem !important;
-                line-height: 1.3 !important;
+                font-size: 1rem !important;
+                margin: 0 0 0.5rem 0 !important;
+                line-height: 1.2 !important;
+                text-align: center !important;
             }
 
             .dropzone p {
-                font-size: 0.9rem !important;
-                margin-bottom: 0.75rem !important;
-                line-height: 1.4 !important;
+                font-size: 0.85rem !important;
+                margin: 0 0 0.5rem 0 !important;
+                line-height: 1.3 !important;
+                text-align: center !important;
             }
 
             .dropzone small {
-                font-size: 0.8rem !important;
-                margin-top: 0.75rem !important;
-                line-height: 1.3 !important;
+                font-size: 0.75rem !important;
+                margin: 0.5rem 0 0 0 !important;
+                line-height: 1.2 !important;
+                text-align: center !important;
+                display: block !important;
             }
 
             /* Show SEO content on mobile but make it more compact */
@@ -997,6 +1011,30 @@
             .dropzone {
                 height: 200px;
                 margin: 0.5rem;
+                padding: 0.75rem !important;
+            }
+
+            .dropzone div[aria-hidden="true"] {
+                font-size: 2rem !important;
+                margin-bottom: 0.25rem !important;
+            }
+
+            .dropzone h2 {
+                font-size: 0.9rem !important;
+                margin: 0 0 0.25rem 0 !important;
+                line-height: 1.1 !important;
+            }
+
+            .dropzone p {
+                font-size: 0.8rem !important;
+                margin: 0 0 0.25rem 0 !important;
+                line-height: 1.2 !important;
+            }
+
+            .dropzone small {
+                font-size: 0.7rem !important;
+                margin: 0.25rem 0 0 0 !important;
+                line-height: 1.1 !important;
             }
 
             .dropzone h2 {
