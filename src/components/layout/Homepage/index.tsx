@@ -37,9 +37,7 @@ export const Homepage = view(() => {
         accept: 'image/*,video/*'
     });
 
-    const handleContactClick = () => {
-        window.location.href = `mailto:dave+magicmockup@earley.email`;
-    };
+
 
     return (
         <>
@@ -52,9 +50,9 @@ export const Homepage = view(() => {
                         </div>
                         <div className="nav-right">
                             <div className="nav-links">
+                                <span style={{visibility: 'hidden'}}>Placeholder</span>
+                                <span style={{visibility: 'hidden'}}>Placeholder</span>
                                 <a href="#features">Features</a>
-                                <a href="#pricing">Pricing</a>
-                                <button onClick={handleContactClick} className="nav-contact">Contact</button>
                             </div>
                             <button onClick={() => routeStore.goToRoute(Routes.AppSelection)} className="nav-app">Open App</button>
                         </div>
@@ -257,7 +255,6 @@ export const Homepage = view(() => {
                             <div className="footer-links">
                                 <button onClick={() => routeStore.goToRoute(Routes.AppSelection)}>Open App</button>
                                 <a href="#features">Features</a>
-                                <button onClick={handleContactClick}>Contact</button>
                                 <a href="/sitemap.xml">Sitemap</a>
                             </div>
                         </div>
