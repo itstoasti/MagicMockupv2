@@ -20,8 +20,9 @@ import {CONFIG} from "../../../config";
 import {DownloadMask} from "../../common/DownloadMask";
 import {ShareButtons} from "../../common/ShareButtons";
 import {ExportDropdown} from "../../common/ExportDropdown";
-import {FaImage, FaCrop, FaDownload, FaPalette, FaCog, FaFont, FaImages} from "react-icons/fa";
+import {FaImage, FaCrop, FaDownload, FaPalette, FaCog, FaFont, FaImages, FaArrowLeft} from "react-icons/fa";
 import {useDropzone} from "react-dropzone";
+import {Routes, routeStore} from "../../../stores/routeStore";
 
 export const App = view(() => {
     useEffect(() => {
@@ -66,6 +67,14 @@ export const App = view(() => {
                 {/* Header Bar */}
                 <header className="header">
                     <div className="header-left">
+                        <button 
+                            className="back-to-tools-btn"
+                            onClick={() => routeStore.goToRoute(Routes.AppSelection)}
+                            title="Back to Choose Your Tool"
+                        >
+                            <FaArrowLeft />
+                            <span>Choose Your Tool</span>
+                        </button>
                         <div className="brand-title">MagicMockup.xyz</div>
                     </div>
                     <div className="header-center">

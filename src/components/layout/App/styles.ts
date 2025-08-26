@@ -24,6 +24,65 @@ export const styles = () => {
         z-index: 10;
 
         .header-left {
+          display: flex;
+          align-items: center;
+          gap: 16px;
+
+          .back-to-tools-btn {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 8px 12px;
+            background: rgba(255, 255, 255, 0.15);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 8px;
+            color: white;
+            font-size: 13px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            white-space: nowrap;
+            font-family: inherit;
+
+            &:hover {
+              background: rgba(255, 255, 255, 0.25);
+              transform: translateY(-1px);
+            }
+
+            svg {
+              width: 14px;
+              height: 14px;
+              flex-shrink: 0;
+            }
+            
+            span {
+              min-width: 0;
+            }
+
+            @media (max-width: 768px) {
+              padding: 6px 10px;
+              font-size: 12px;
+              
+              span {
+                display: none;
+              }
+              
+              svg {
+                width: 16px;
+                height: 16px;
+              }
+            }
+
+            @media (max-width: 480px) {
+              padding: 8px;
+              
+              svg {
+                width: 18px;
+                height: 18px;
+              }
+            }
+          }
+
           .brand-title {
             font-size: 1.4em;
             font-weight: 700;
@@ -36,6 +95,14 @@ export const styles = () => {
 
             &:hover {
               opacity: 0.9;
+            }
+
+            @media (max-width: 768px) {
+              font-size: 1.2em;
+            }
+
+            @media (max-width: 480px) {
+              font-size: 1.1em;
             }
           }
         }
