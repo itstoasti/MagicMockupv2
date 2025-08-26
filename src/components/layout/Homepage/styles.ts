@@ -309,7 +309,7 @@ export const styles = () => {
                 width: 270px;
                 height: 470px;
                 top: 5%;
-                right: -35%;
+                right: -20%;
                 border-radius: 20px;
                 animation-delay: 1s;
               }
@@ -318,7 +318,7 @@ export const styles = () => {
                 width: 430px;
                 height: 270px;
                 bottom: -15%;
-                left: 20%;
+                left: 10%;
                 animation-delay: 2s;
               }
             }
