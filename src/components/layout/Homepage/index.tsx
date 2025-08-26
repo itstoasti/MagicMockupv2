@@ -70,6 +70,11 @@ export const Homepage = view(() => {
                             <h1>Create <span className="gradient-text">stunning mockups</span> and<br/><span className="gradient-text">text-behind-image</span><br/>designs</h1>
                             <p>Transform screenshots into professional device mockups or create eye-catching text-behind-image designs. Two powerful tools, one seamless experience. No downloads, no signups required.</p>
                             
+                            {/* Mobile-only showcase image */}
+                            <div className="mobile-showcase-image">
+                                <img src="/images/mm-mrr.png" alt="MRR Dashboard Preview" />
+                            </div>
+                            
                             <div className="hero-actions">
                                 <div className="hero-upload">
                                     <div {...getPreviewRootProps()} className={`preview-window ${isPreviewDragActive ? 'drag-active' : ''}`}>
@@ -99,26 +104,15 @@ export const Homepage = view(() => {
                         </div>
                         
                         <div className="hero-visual">
-                            <div className="mockup-showcase">
-                                <div className="floating-mockup mockup-1">
-                                    <div className="mockup-frame browser">
-                                        <div className="mockup-header">
-                                            <div className="mockup-dots">
-                                                <span></span><span></span><span></span>
-                                            </div>
-                                        </div>
-                                        <div className="mockup-content"></div>
-                                    </div>
+                            <div className="hero-images">
+                                <div className="hero-image hero-image-1">
+                                    <img src="/images/mm-mrr.png" alt="MRR Dashboard" />
                                 </div>
-                                <div className="floating-mockup mockup-2">
-                                    <div className="mockup-frame mobile">
-                                        <div className="mockup-content mobile-content"></div>
-                                    </div>
+                                <div className="hero-image hero-image-2">
+                                    <img src="/images/mm-foodtrack.png" alt="Food Tracking App" />
                                 </div>
-                                <div className="floating-mockup mockup-3">
-                                    <div className="mockup-frame tablet">
-                                        <div className="mockup-content tablet-content"></div>
-                                    </div>
+                                <div className="hero-image hero-image-3">
+                                    <img src="/images/mm-gitcontrib.png" alt="GitHub Contributions" />
                                 </div>
                             </div>
                         </div>
@@ -150,14 +144,7 @@ export const Homepage = view(() => {
                             </div>
                             <div className="text-feature-visual">
                                 <div className="text-preview-container">
-                                    <img src="/images/textbehindimagehome.png" alt="Text Behind Image Example" style={{
-                                        width: '120%',
-                                        height: 'auto',
-                                        borderRadius: '1rem',
-                                        boxShadow: '0 20px 40px rgba(0, 0, 0, 0.1)',
-                                        transform: 'scale(1.1)',
-                                        maxWidth: 'none'
-                                    }} />
+                                    <img src="/images/textbehindimagehome.png" alt="Text Behind Image Example" className="text-behind-image" />
                                 </div>
                             </div>
                         </div>
