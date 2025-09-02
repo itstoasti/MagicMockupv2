@@ -3,6 +3,9 @@ import {App} from "./App";
 import {Homepage} from "./Homepage";
 import {AppSelection} from "./AppSelection";
 import {TextBehindImageApp} from "./TextBehindImageApp";
+import {Blog} from "./Blog";
+import {BlogPostView} from "./BlogPost";
+import {BlogAdmin} from "./BlogAdmin";
 import React, {useEffect} from "react";
 import {Routes, routeStore} from "../../stores/routeStore";
 
@@ -23,6 +26,12 @@ export const MainApp = view(() => {
             return <App/>;
         case Routes.TextBehindImageApp:
             return <TextBehindImageApp/>;
+        case Routes.Blog:
+            return <Blog/>;
+        case Routes.BlogPost:
+            return <BlogPostView/>;
+        case Routes.BlogAdmin:
+            return <BlogAdmin/>;
         case Routes.Home:
             return <Homepage />;
         default:

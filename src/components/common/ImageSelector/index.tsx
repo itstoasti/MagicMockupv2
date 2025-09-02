@@ -80,7 +80,7 @@ export const ImageSelector = view(() => {
         setUrlIsInvalid(false);
         setRequestFailed(false);
 
-        fetch(`${process.env.REACT_APP_SCREENSHOT_API}?url=${url}${enableMobileScreenshot ? '&mobile=1' : ''}`)
+        fetch(`${(typeof process !== 'undefined' && process.env.REACT_APP_SCREENSHOT_API) || ''}?url=${url}${enableMobileScreenshot ? '&mobile=1' : ''}`)
             .then(response => response.json())
             .then(data => {
                 app.setImageData(`data:image/png;base64, ${data.imageBase64}`);

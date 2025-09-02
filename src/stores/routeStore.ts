@@ -5,6 +5,9 @@ export enum Routes {
     MockupApp,
     TextBehindImageApp,
     Home,
+    Blog,
+    BlogPost,
+    BlogAdmin,
 }
 
 export const RouteConfig = {
@@ -23,6 +26,18 @@ export const RouteConfig = {
     [Routes.Home]: {
         path: '/',
         regex: /^\/$/,
+    },
+    [Routes.Blog]: {
+        path: '/blog',
+        regex: /^\/?blog$/,
+    },
+    [Routes.BlogPost]: {
+        path: '/blog/',
+        regex: /^\/?blog\/[\w-]+$/,
+    },
+    [Routes.BlogAdmin]: {
+        path: '/blog/admin',
+        regex: /^\/?blog\/admin$/,
     }
 }
 
@@ -51,6 +66,12 @@ export const routeStore = store({
             routeStore.currentRoute = Routes.MockupApp;
         } else if (RouteConfig[Routes.TextBehindImageApp].regex.test(pathname)) {
             routeStore.currentRoute = Routes.TextBehindImageApp;
+        } else if (RouteConfig[Routes.BlogAdmin].regex.test(pathname)) {
+            routeStore.currentRoute = Routes.BlogAdmin;
+        } else if (RouteConfig[Routes.BlogPost].regex.test(pathname)) {
+            routeStore.currentRoute = Routes.BlogPost;
+        } else if (RouteConfig[Routes.Blog].regex.test(pathname)) {
+            routeStore.currentRoute = Routes.Blog;
         } else if (RouteConfig[Routes.AppSelection].regex.test(pathname)) {
             routeStore.currentRoute = Routes.AppSelection;
         } else if (RouteConfig[Routes.Home].regex.test(pathname)) {
