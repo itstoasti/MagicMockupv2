@@ -241,9 +241,7 @@ export const Homepage = view(() => {
                             </div>
                             <div className="footer-links">
                                 <button onClick={() => routeStore.goToRoute(Routes.AppSelection)}>Open App</button>
-                                <button onClick={() => routeStore.goToRoute(Routes.Blog)}>Blog</button>
                                 <a href="#features">Features</a>
-                                <a href="/sitemap.xml">Sitemap</a>
                             </div>
                         </div>
                         <div className="footer-bottom">

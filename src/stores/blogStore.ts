@@ -59,7 +59,7 @@ export const blogStore = store({
     async login(password: string): Promise<boolean> {
         // For development, use local authentication
         if (process.env.NODE_ENV === 'development') {
-            if (password === 'dev_admin_123') {
+            if (password === 'hello2893') {
                 blogStore.isAuthenticated = true;
                 const authData = {
                     authenticated: true,
@@ -250,42 +250,352 @@ export const blogStore = store({
     // Initialize with sample post if no posts exist
     initializeSampleData(): void {
         if (blogStore.posts.length === 0) {
-            const samplePost: BlogPost = {
-                id: "1",
-                title: "Welcome to Magic Mockup Blog",
-                slug: "welcome-to-magic-mockup-blog",
-                content: `# Welcome to Magic Mockup Blog
+            const samplePosts: BlogPost[] = [
+                {
+                    id: "1",
+                    title: "How to Create Professional Device Mockups in 2024: Complete Guide",
+                    slug: "how-to-create-professional-device-mockups-2024-guide",
+                    content: `# How to Create Professional Device Mockups in 2024: Complete Guide
 
-We're excited to launch our new blog where we'll share tips, tutorials, and insights about creating stunning mockups and design assets.
+Device mockups have become an essential part of modern design workflows. Whether you're showcasing an app, presenting a website design, or creating marketing materials, professional mockups can make your work stand out and communicate your vision effectively.
 
-## What You'll Find Here
+## Why Device Mockups Matter for Your Design Portfolio
 
-- **Design tutorials** - Learn how to create professional mockups
-- **Tool updates** - Stay updated with new features and improvements  
-- **Design inspiration** - Discover creative ways to use our tools
-- **Industry insights** - Keep up with design trends and best practices
+In today's competitive design landscape, presentation is everything. A well-crafted mockup can transform a simple screenshot into a compelling visual story that resonates with clients and stakeholders.
 
-## Getting Started
+### Benefits of Using Device Mockups
 
-Our Magic Mockup tools make it easy to:
+- **Professional presentation** - Transform screenshots into polished visuals
+- **Client communication** - Help clients visualize the final product
+- **Marketing materials** - Create stunning visuals for social media and websites
+- **Portfolio enhancement** - Showcase your work in realistic contexts
+- **Time efficiency** - Quick way to present multiple design variations
 
-1. Create device mockups from screenshots
-2. Add text behind images with AI-powered background removal
-3. Export high-quality images for your projects
+## Step-by-Step Guide to Creating Device Mockups
 
-Stay tuned for more content coming soon!`,
-                excerpt: "Welcome to our new blog! We'll be sharing design tips, tutorials, and insights about creating stunning mockups and design assets.",
-                author: "Magic Mockup Team",
-                publishDate: new Date().toISOString(),
-                lastModified: new Date().toISOString(),
-                tags: ["announcement", "design", "mockups"],
-                metaTitle: "Welcome to Magic Mockup Blog - Design Tips & Tutorials",
-                metaDescription: "Discover design tutorials, tool updates, and creative inspiration on the Magic Mockup blog. Learn to create stunning mockups and design assets.",
-                published: true,
-                readingTime: 2
-            };
+### 1. Choose the Right Device Frame
+
+The device you choose should match your target audience and use case. Popular options include:
+
+- **iPhone mockups** - Perfect for mobile app presentations
+- **MacBook mockups** - Ideal for web design and desktop applications
+- **iPad mockups** - Great for tablet-optimized experiences
+- **Android device mockups** - Essential for cross-platform apps
+
+### 2. Prepare Your Screenshots
+
+Before creating mockups, ensure your screenshots are:
+
+- High resolution (at least 2x the display size)
+- Properly cropped to device dimensions
+- Free of personal information or placeholder content
+- Consistent in terms of lighting and color
+
+### 3. Use Professional Mockup Tools
+
+**Free Options:**
+- Magic Mockup (our free online tool)
+- Figma mockup plugins
+- Canva device frames
+
+**Premium Options:**
+- Sketch mockup libraries
+- Adobe XD mockup templates
+- Specialized mockup generators
+
+### 4. Customize Your Presentation
+
+Make your mockups stand out by:
+
+- Adding realistic shadows and reflections
+- Choosing appropriate background colors or textures
+- Maintaining consistent lighting across multiple devices
+- Including contextual elements (hands, desk setup, etc.)
+
+## Best Practices for Device Mockups
+
+### Design Consistency
+
+Maintain visual consistency across all your mockups by using:
+
+- Similar lighting conditions
+- Consistent color schemes
+- Uniform spacing and alignment
+- Matching perspective angles
+
+### Technical Considerations
+
+- **Resolution**: Use high-DPI mockups for crisp presentation
+- **File formats**: PNG for transparency, JPG for smaller file sizes
+- **Color profiles**: Ensure consistent color reproduction across devices
+- **Accessibility**: Consider how mockups appear to users with different visual needs
+
+### Common Mistakes to Avoid
+
+1. **Using low-resolution source images**
+2. **Inconsistent lighting or shadows**
+3. **Overcrowding with too many devices**
+4. **Ignoring the target platform's design guidelines**
+5. **Using outdated device models**
+
+## Advanced Mockup Techniques
+
+### Interactive Mockups
+
+Create more engaging presentations by:
+
+- Adding hover states and interactions
+- Showing user flow across multiple screens
+- Including micro-animations and transitions
+- Demonstrating responsive behavior
+
+### Context-Aware Mockups
+
+Place your designs in realistic environments:
+
+- Office settings for B2B applications
+- Casual environments for consumer apps
+- Industry-specific contexts (medical, education, etc.)
+- Lifestyle scenarios that match your target audience
+
+## Tools and Resources
+
+### Free Mockup Resources
+
+- **Magic Mockup**: Free online device mockup generator
+- **Mockup World**: Curated collection of free mockups
+- **Freepik**: Large library of mockup templates
+- **Unsplash**: High-quality background images
+
+### Design Inspiration
+
+- **Dribbble**: Professional design showcases
+- **Behance**: Portfolio presentations and case studies
+- **Mobbin**: Mobile app design inspiration
+- **Page Flows**: User flow examples and mockups
+
+## Conclusion
+
+Creating professional device mockups is both an art and a science. By following these guidelines and best practices, you can create compelling presentations that effectively communicate your design vision and impress clients.
+
+Remember that the best mockup is one that serves your specific presentation goals while maintaining visual appeal and technical quality. Experiment with different styles and techniques to find what works best for your projects.
+
+Ready to create your first professional mockup? Try our free Magic Mockup tool and transform your screenshots into stunning presentations today.
+
+## Next Steps
+
+- Download our free mockup templates
+- Check out our [text-behind-image tool](/app/text-behind-image) for creative presentations
+- Follow us for more design tips and tutorials
+- Share your mockup creations on social media using #MagicMockup`,
+                    excerpt: "Learn how to create professional device mockups that impress clients and enhance your design portfolio. Complete guide with best practices, tools, and step-by-step instructions for 2024.",
+                    author: "Magic Mockup Team",
+                    publishDate: new Date().toISOString(),
+                    lastModified: new Date().toISOString(),
+                    tags: ["mockups", "design", "tutorial", "guide", "portfolio"],
+                    metaTitle: "How to Create Professional Device Mockups in 2024 - Complete Guide",
+                    metaDescription: "Master device mockups with our comprehensive 2024 guide. Learn best practices, tools, and techniques to create stunning presentations that impress clients.",
+                    published: true,
+                    readingTime: 8
+                },
+                {
+                    id: "2", 
+                    title: "AI-Powered Background Removal: Transform Your Design Workflow",
+                    slug: "ai-background-removal-design-workflow",
+                    content: `# AI-Powered Background Removal: Transform Your Design Workflow
+
+Artificial intelligence has revolutionized many aspects of design, and background removal is no exception. What once required hours of meticulous work in Photoshop can now be accomplished in seconds with AI-powered tools.
+
+## The Evolution of Background Removal
+
+### Traditional Methods vs AI
+
+**Traditional Photoshop Methods:**
+- Manual selection with pen tool (15-30 minutes per image)
+- Magic wand and quick selection tools (5-15 minutes)
+- Refine edge techniques for complex subjects
+- High skill requirement and learning curve
+
+**AI-Powered Solutions:**
+- Automatic subject detection (5-10 seconds)
+- Smart edge refinement
+- Batch processing capabilities
+- No technical expertise required
+
+## How AI Background Removal Works
+
+### Machine Learning Models
+
+Modern AI background removal uses sophisticated neural networks trained on millions of images to:
+
+1. **Object Detection** - Identify main subjects in images
+2. **Edge Detection** - Precisely trace subject boundaries
+3. **Semantic Segmentation** - Understand image context and depth
+4. **Refinement Processing** - Clean up edges and handle complex areas
+
+### Key Technologies
+
+- **U-Net Architecture** - Specialized for image segmentation
+- **DeepLab Models** - Google's semantic segmentation technology
+- **Mask R-CNN** - Instance segmentation for multiple objects
+- **Mobile-Optimized Models** - Fast processing on any device
+
+## Creative Applications for Designers
+
+### Marketing Materials
+
+Transform your marketing visuals by:
+
+- Creating clean product photography
+- Removing distracting backgrounds from team photos
+- Preparing images for different brand contexts
+- Building consistent visual libraries
+
+### Social Media Content
+
+Enhance your social media presence with:
+
+- Custom branded backgrounds for posts
+- Consistent aesthetic across platforms
+- Quick content creation and adaptation
+- Professional-looking graphics without photoshoots
+
+### E-commerce Photography
+
+Improve product presentations by:
+
+- Creating white background product shots
+- Maintaining consistency across product catalogs
+- Reducing photography costs and time
+- Enabling easy background variations
+
+### Design Projects
+
+Streamline design workflows with:
+
+- Clean assets for mockups and presentations
+- Flexible image manipulation without quality loss
+- Quick iterations and A/B testing variants
+- Seamless integration with design tools
+
+## Best Practices for AI Background Removal
+
+### Input Image Quality
+
+For optimal results, use images that have:
+
+- **Good contrast** between subject and background
+- **Sufficient resolution** (at least 1000px on longest side)
+- **Clear subject definition** without excessive blur
+- **Minimal background complexity** when possible
+
+### Subject Types That Work Best
+
+AI excels with:
+
+- People and portraits
+- Products with clear edges
+- Animals and pets
+- Objects with defined boundaries
+
+### Challenging Scenarios
+
+Be aware of limitations with:
+
+- Transparent or glass objects
+- Hair with complex backgrounds
+- Fine details like fur or fabric textures
+- Low contrast or similar colors
+
+## Professional Workflow Integration
+
+### Design Software Integration
+
+Most AI background removal tools integrate with:
+
+- **Adobe Creative Suite** - Plugins and extensions
+- **Figma** - Direct API integrations
+- **Canva** - Built-in AI-powered tools
+- **Sketch** - Third-party plugin ecosystem
+
+### Batch Processing
+
+Maximize efficiency by:
+
+- Processing multiple images simultaneously
+- Setting up automated workflows
+- Using API integrations for large projects
+- Maintaining consistent settings across batches
+
+### Quality Control
+
+Maintain professional standards through:
+
+- Manual review of AI-processed images
+- Touch-up editing for critical projects
+- A/B testing different AI models
+- Feedback loops for continuous improvement
+
+## The Future of AI in Design
+
+### Emerging Capabilities
+
+Next-generation AI will bring:
+
+- **Real-time processing** in design software
+- **3D-aware background removal** for complex scenes
+- **Style-aware replacements** that match lighting and perspective
+- **Video background removal** with temporal consistency
+
+### Impact on Design Industry
+
+AI background removal is changing how designers:
+
+- Allocate time and resources
+- Approach creative projects
+- Collaborate with clients and teams
+- Price design services
+
+## Getting Started with AI Background Removal
+
+### Free Tools to Try
+
+- **Magic Mockup Text Behind Image** - Our free AI-powered tool
+- **Remove.bg** - Popular web-based solution
+- **Canva Background Remover** - Integrated design platform
+- **Photoshop AI** - Built into Creative Cloud
+
+### Pro Tips for Success
+
+1. **Start with high-quality source images**
+2. **Learn when to use AI vs manual techniques**
+3. **Keep original files for future edits**
+4. **Experiment with different AI models**
+5. **Combine AI processing with manual refinement**
+
+## Conclusion
+
+AI-powered background removal has democratized professional-quality image editing, making sophisticated techniques accessible to designers of all skill levels. By understanding how to leverage these tools effectively, you can dramatically improve your workflow efficiency while maintaining creative control.
+
+The key is knowing when and how to use AI as part of a broader design strategy, rather than relying on it exclusively. Combine AI efficiency with human creativity to achieve the best results for your projects.
+
+Ready to experience the power of AI background removal? Try our free text-behind-image tool and see how quickly you can transform your images.`,
+                    excerpt: "Discover how AI-powered background removal is revolutionizing design workflows. Learn best practices, applications, and tips for integrating AI tools into your creative process.",
+                    author: "Sarah Chen, UX Designer",
+                    publishDate: new Date(Date.now() - 7 * 24 * 60 * 60 * 1000).toISOString(), // 1 week ago
+                    lastModified: new Date(Date.now() - 7 * 24 * 60 * 60 * 1000).toISOString(),
+                    tags: ["ai", "background-removal", "design-tools", "workflow", "automation"],
+                    metaTitle: "AI Background Removal: Transform Your Design Workflow in 2024",
+                    metaDescription: "Learn how AI-powered background removal tools are revolutionizing design workflows. Best practices, applications, and tips for creative professionals.",
+                    published: true,
+                    readingTime: 6
+                }
+            ];
             
-            blogStore.posts.push(samplePost);
+            samplePosts.forEach(post => {
+                blogStore.posts.push(post);
+            });
+            
             blogStore.savePosts();
         }
     }

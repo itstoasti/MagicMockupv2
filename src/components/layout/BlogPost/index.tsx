@@ -3,7 +3,9 @@ import { view } from '@risingstack/react-easy-state';
 import { blogStore, BlogPost } from '../../../stores/blogStore';
 import { Routes, routeStore } from '../../../stores/routeStore';
 import { styles } from './styles';
+import { SEOHead } from '../../common/SEOHead';
 import { FaCalendar, FaClock, FaTag, FaArrowLeft, FaShareAlt } from 'react-icons/fa';
+import { Breadcrumbs } from '../../common/Breadcrumbs';
 
 export const BlogPostView = view(() => {
     const [post, setPost] = useState<BlogPost | null>(null);
@@ -15,20 +17,6 @@ export const BlogPostView = view(() => {
         
         if (foundPost && foundPost.published) {
             setPost(foundPost);
-            
-            // Update document title and meta description for SEO
-            document.title = foundPost.metaTitle || foundPost.title + ' - Magic Mockup Blog';
-            
-            // Update meta description
-            const metaDescription = document.querySelector('meta[name="description"]');
-            if (metaDescription) {
-                metaDescription.setAttribute('content', foundPost.metaDescription || foundPost.excerpt);
-            } else {
-                const meta = document.createElement('meta');
-                meta.name = 'description';
-                meta.content = foundPost.metaDescription || foundPost.excerpt;
-                document.head.appendChild(meta);
-            }
         }
         
         setIsLoading(false);
@@ -127,6 +115,14 @@ export const BlogPostView = view(() => {
 
     return (
         <div className={styles()}>
+            <SEOHead
+                title={post.metaTitle || `${post.title} - Magic Mockup Blog`}
+                description={post.metaDescription || post.excerpt}
+                keywords={`${post.tags.join(', ')}, mockup, design, tutorial`}
+                canonicalUrl={`${window.location.origin}/blog/${post.slug}`}
+                ogType="article"
+                post={post}
+            />
             {/* Header */}
             <header className="post-header">
                 <div className="header-container">
@@ -148,6 +144,14 @@ export const BlogPostView = view(() => {
             <main className="post-main">
                 <article className="post-article">
                     <div className="article-container">
+                        {/* Breadcrumbs */}
+                        <Breadcrumbs 
+                            items={[
+                                { label: 'Home', route: Routes.Home },
+                                { label: 'Blog', route: Routes.Blog },
+                                { label: post.title, active: true }
+                            ]}
+                        />
                         {/* Article Header */}
                         <header className="article-header">
                             <div className="article-meta">

@@ -3,13 +3,15 @@ import { view } from '@risingstack/react-easy-state';
 import { blogStore, BlogPost } from '../../../stores/blogStore';
 import { Routes, routeStore } from '../../../stores/routeStore';
 import { styles } from './styles';
-import { FaPlus, FaEdit, FaTrash, FaEye, FaEyeSlash, FaSave, FaArrowLeft, FaTimes } from 'react-icons/fa';
+import { downloadSitemap, downloadRobotsTxt, downloadRSSFeed, analyzeSEO } from '../../../utils/seoUtils';
+import { FaPlus, FaEdit, FaTrash, FaEye, FaEyeSlash, FaSave, FaArrowLeft, FaTimes, FaDownload, FaSearch } from 'react-icons/fa';
 
 export const BlogAdmin = view(() => {
     const [password, setPassword] = useState('');
     const [showLoginForm, setShowLoginForm] = useState(false);
     const [editingPost, setEditingPost] = useState<BlogPost | null>(null);
     const [showEditor, setShowEditor] = useState(false);
+    const [showSEOAnalysis, setShowSEOAnalysis] = useState(false);
     const [formData, setFormData] = useState<Partial<BlogPost>>({
         title: '',
         content: '',
@@ -152,6 +154,12 @@ export const BlogAdmin = view(() => {
                             <button onClick={handleSavePost} className="btn btn-primary">
                                 <FaSave /> Save Post
                             </button>
+                            <button 
+                                onClick={() => setShowSEOAnalysis(!showSEOAnalysis)} 
+                                className={`btn ${showSEOAnalysis ? 'btn-warning' : 'btn-info'}`}
+                            >
+                                <FaSearch /> SEO Analysis
+                            </button>
                             <button onClick={() => setShowEditor(false)} className="btn btn-secondary">
                                 <FaTimes /> Cancel
                             </button>
@@ -252,6 +260,59 @@ export const BlogAdmin = view(() => {
                                 />
                             </div>
                         </div>
+
+                        {/* SEO Analysis Panel */}
+                        {showSEOAnalysis && (
+                            <div className="seo-analysis">
+                                <h3>SEO Analysis</h3>
+                                {(() => {
+                                    const analysis = analyzeSEO(
+                                        formData.metaTitle || formData.title || '',
+                                        formData.metaDescription || formData.excerpt || '',
+                                        formData.content || ''
+                                    );
+                                    
+                                    return (
+                                        <div className="analysis-results">
+                                            <div className="analysis-stats">
+                                                <span>Words: {analysis.wordCount}</span>
+                                                <span>Title: {analysis.titleLength} chars</span>
+                                                <span>Description: {analysis.descriptionLength} chars</span>
+                                            </div>
+                                            
+                                            {analysis.issues.length > 0 && (
+                                                <div className="analysis-issues">
+                                                    <h4>⚠️ Issues to Fix:</h4>
+                                                    <ul>
+                                                        {analysis.issues.map((issue, i) => (
+                                                            <li key={i} className="issue">{issue}</li>
+                                                        ))}
+                                                    </ul>
+                                                </div>
+                                            )}
+                                            
+                                            {analysis.recommendations.length > 0 && (
+                                                <div className="analysis-recommendations">
+                                                    <h4>💡 Recommendations:</h4>
+                                                    <ul>
+                                                        {analysis.recommendations.map((rec, i) => (
+                                                            <li key={i} className="recommendation">{rec}</li>
+                                                        ))}
+                                                    </ul>
+                                                </div>
+                                            )}
+                                            
+                                            {analysis.issues.length === 0 && analysis.recommendations.length === 0 && (
+                                                <div className="analysis-success">
+                                                    <h4>✅ SEO looks good!</h4>
+                                                    <p>No major issues found. Your post is SEO-ready.</p>
+                                                </div>
+                                            )}
+                                        </div>
+                                    );
+                                })()}
+                            </div>
+                        )}
                     </div>
                 </div>
             </div>
@@ -269,6 +330,15 @@ export const BlogAdmin = view(() => {
                         </button>
                         <button onClick={() => routeStore.goToRoute(Routes.Blog)} className="btn btn-secondary">
                             <FaEye /> View Blog
+                        </button>
+                        <button onClick={downloadSitemap} className="btn btn-info">
+                            <FaDownload /> Sitemap
+                        </button>
+                        <button onClick={downloadRobotsTxt} className="btn btn-info">
+                            <FaDownload /> Robots.txt
+                        </button>
+                        <button onClick={downloadRSSFeed} className="btn btn-info">
+                            <FaDownload /> RSS Feed
                         </button>
                         <button onClick={handleLogout} className="btn btn-danger">
                             Logout

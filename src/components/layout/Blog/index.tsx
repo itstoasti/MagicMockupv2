@@ -3,7 +3,9 @@ import { view } from '@risingstack/react-easy-state';
 import { blogStore } from '../../../stores/blogStore';
 import { Routes, routeStore } from '../../../stores/routeStore';
 import { styles } from './styles';
+import { SEOHead } from '../../common/SEOHead';
 import { FaSearch, FaTimes, FaCalendar, FaClock, FaTag, FaArrowRight } from 'react-icons/fa';
+import { Breadcrumbs } from '../../common/Breadcrumbs';
 
 export const Blog = view(() => {
     const [showSearch, setShowSearch] = useState(false);
@@ -31,6 +33,13 @@ export const Blog = view(() => {
 
     return (
         <div className={styles()}>
+            <SEOHead
+                title="Magic Mockup Blog - Design Tips, Tutorials & Insights"
+                description="Discover design tutorials, tool updates, and creative inspiration on the Magic Mockup blog. Learn to create stunning mockups and design assets."
+                keywords="design blog, mockup tutorials, design tips, ui design, graphic design, mockup tools"
+                canonicalUrl={`${window.location.origin}/blog`}
+                ogType="website"
+            />
             {/* Hero Section */}
             <header className="blog-hero">
                 <div className="hero-container">
@@ -79,6 +88,19 @@ export const Blog = view(() => {
 
             <main className="blog-main">
                 <div className="blog-container">
+                    {/* Breadcrumbs */}
+                    <Breadcrumbs 
+                        items={[
+                            { label: 'Home', route: Routes.Home },
+                            { label: 'Blog', active: true }
+                        ]}
+                    />
+                    
+                    {/* Blog Description for SEO */}
+                    <div className="blog-description">
+                        <p>Explore our collection of design tutorials, tool guides, and industry insights. Learn how to create professional mockups, master AI-powered design tools, and stay updated with the latest design trends.</p>
+                    </div>
+                    
                     {/* Tags Filter */}
                     {allTags.length > 0 && (
                         <div className="tags-filter">
@@ -210,6 +232,7 @@ export const Blog = view(() => {
                                 Tools
                             </button>
                             <a href="/blog/admin" rel="nofollow">Admin</a>
+                            <a href="#" onClick={(e) => {e.preventDefault(); import('../../../utils/seoUtils').then(({downloadRSSFeed}) => downloadRSSFeed());}} rel="nofollow">RSS Feed</a>
                         </div>
                     </div>
                     <div className="footer-bottom">
